@@ -6,7 +6,13 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/AjayPAnand/8.2CDevSecOps.git'
             }
         }
-        stage('Install Dependencies') {
+        stage('Check Node/npm version') {
+    steps {
+        bat 'node -v'
+        bat 'npm -v'
+        }
+    }
+       stage('Install Dependencies') {
             steps {
                 bat 'npm install || exit /b 0'
             }
