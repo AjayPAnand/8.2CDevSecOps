@@ -32,9 +32,9 @@ post {
                     subject: "Build ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                     body: "See console output: ${env.BUILD_URL}",
                     to: 'ajaypanand007@gmail.com',
-                    attachLog: true,
-                   echo "Email sendjjj: ${e.getMessage()}"
+                    attachLog: true
                 )
+               echo "Email sendjjj: ${e.getMessage()}"
             } catch (Exception e) {
                 echo "Email sending failed: ${e.getMessage()}"
             }
