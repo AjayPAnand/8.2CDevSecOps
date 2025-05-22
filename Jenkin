@@ -1,71 +1,42 @@
 pipeline {
     agent any
 
-    environment {
-        EMAIL_RECIPIENT = 'ajaypanand007@gmail.com'
-    }
-
     stages {
         stage('Build') {
             steps {
-                echo "Building the application"
-                // Insert your build commands here (Maven, Gradle, etc.)
+                echo 'Building the application'
             }
         }
         stage('Test') {
             steps {
-                script {
-                    try {
-                        echo "Running tests"
-                        // Insert your test commands here (JUnit, Pytest, etc.)
-                    } catch (e) {
-                        currentBuild.result = 'FAILURE'
-                        throw e
-                    }
-                }
-            }
-            post {
-                always {
-                    emailext (
-                        to: "${env.EMAIL_RECIPIENT}",
-                        subject: "Test Stage: ${currentBuild.currentResult}",
-                        body: "The Test stage has ${currentBuild.currentResult}. Please find the attached logs.",
-                        attachmentsPattern: '**/test-output.log',
-                        attachLog: true
-                    )
-                }
+                echo 'Running tests'
             }
         }
         stage('Security Scan') {
             steps {
-                script {
-                    try {
-                        echo "Running security scan"
-                        // Insert your security scanner commands here (OWASP ZAP, SonarQube, etc.)
-                    } catch (e) {
-                        currentBuild.result = 'FAILURE'
-                        throw e
-                    }
-                }
-            }
-            post {
-                always {
-                    emailext (
-                        to: "${env.EMAIL_RECIPIENT}",
-                        subject: "Security Scan Stage: ${currentBuild.currentResult}",
-                        body: "The Security Scan stage has ${currentBuild.currentResult}. Please find the attached logs.",
-                        attachmentsPattern: '**/security-scan.log',
-                        attachLog: true
-                    )
-                }
+                echo 'Running security scan'
             }
         }
         stage('Deploy') {
             steps {
-                echo "Deploying the application"
-                // Deployment scripts go here
+                echo 'Deploying the application'
             }
         }
     }
-}
 
+    post {
+        always {
+            emailext(
+                subject: "Build ${currentBuild.currentResult}: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """\
+                Job: ${env.JOB_NAME}
+                Build Number: ${env.BUILD_NUMBER}
+                Status: ${currentBuild.currentResult}
+                URL: ${env.BUILD_URL}
+                """,
+                to: "ajaypanand007@gmail.com",
+                attachLog: true
+            )
+}
+}
+}
