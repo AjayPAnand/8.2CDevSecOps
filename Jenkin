@@ -11,10 +11,42 @@ pipeline {
             steps {
                 echo 'Running tests'
             }
+            post {
+                always {
+                    script {
+                        emailext (
+                            to: 'ajaypanand007@gmail.com',
+                            subject: "Jenkins: Tests Stage Result - ${currentBuild.currentResult}",
+                            body: """
+                            <p>The Test stage completed with status: <b>${currentBuild.currentResult}</b>.</p>
+                            <p>Check the attached log for details.</p>
+                            """,
+                            mimeType: 'text/html',
+                            attachmentsPattern: 'test.log'
+                        )
+                    }
+                }
+            }
         }
         stage('Security Scan') {
             steps {
                 echo 'Running security scan'
+            }
+            post {
+                always {
+                    script {
+                        emailext (
+                            to: 'ajaypanand007@gmail.com',
+                            subject: "Jenkins: Security Stage Result - ${currentBuild.currentResult}",
+                            body: """
+                            <p>The Security stage completed with status: <b>${currentBuild.currentResult}</b>.</p>
+                            <p>Check the attached log for details.</p>
+                            """,
+                            mimeType: 'text/html',
+                            attachmentsPattern: 'security_test.log'
+                        )
+                    }
+                }
             }
         }
         stage('Deploy') {
@@ -23,13 +55,4 @@ pipeline {
             }
         }
     }
-
-post {
-always {
-         emailext(subject: "Build ",
-         body: "test body",
-         to: 'ajaypanand007@gmail.com',
-         attachLog: true)
-    }
-}
 }
