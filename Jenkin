@@ -26,9 +26,10 @@ pipeline {
 
 post {
 always {
-        mail to: 'ajaypanand007@gmail.com',
-             subject: "Basic Test Email",
-             body: "This is a test email from Jenkins pipeline."
+         subject: "Build ",
+         body: "test body",
+         to: 'ajaypanand007@gmail.com',
+         attachLog: true,
     }
 }
 }
