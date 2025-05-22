@@ -22,7 +22,7 @@ pipeline {
                             <p>Check the attached log for details.</p>
                             """,
                             mimeType: 'text/html',
-                            attachmentsPattern: 'test.log'
+                            attachmentsPattern: 'build.log'
                         )
                     }
                 }
@@ -43,7 +43,7 @@ pipeline {
                             <p>Check the attached log for details.</p>
                             """,
                             mimeType: 'text/html',
-                            attachmentsPattern: 'security_test.log'
+                            attachmentsPattern: 'build.log'
                         )
                     }
                 }
