@@ -26,10 +26,10 @@ pipeline {
 
 post {
 always {
-         subject: "Build ",
+         emailext(subject: "Build ",
          body: "test body",
          to: 'ajaypanand007@gmail.com',
-         attachLog: true,
+         attachLog: true)
     }
 }
 }
