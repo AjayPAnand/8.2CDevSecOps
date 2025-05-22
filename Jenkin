@@ -4,12 +4,15 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building the application'
+                echo 'Building the application with Maven'
+                bat 'echo "This is the start of build log at %DATE% %TIME%" > build.log'
+                bat 'echo "This is the end of build %DATE% %TIME%" >> build.log'
             }
         }
         stage('Test') {
             steps {
-                echo 'Running tests'
+                echo 'Running tests in JUnit'
+                bat 'echo "This is the build when testing with JUnit at %DATE% %TIME%" >> build.log'
             }
             post {
                 always {
@@ -30,7 +33,9 @@ pipeline {
         }
         stage('Security Scan') {
             steps {
-                echo 'Running security scan'
+                echo 'Running security scan with SonarQube'
+                bat 'echo "This is the security scan log starting %DATE% %TIME%" > security.log'
+                bat 'echo "This is the security scan log ends" >> security.log'
             }
             post {
                 always {
@@ -43,7 +48,7 @@ pipeline {
                             <p>Check the attached log for details.</p>
                             """,
                             mimeType: 'text/html',
-                            attachmentsPattern: 'build.log'
+                            attachmentsPattern: 'security.log'
                         )
                     }
                 }
