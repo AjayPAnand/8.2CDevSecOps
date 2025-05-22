@@ -35,8 +35,8 @@ post {
                     attachLog: true
                 )
                echo "Email sendjjj: ${e.getMessage()}"
-            } catch (Exception e) {
-                echo "Email sending failed: ${e.getMessage()}"
+            } catch (err) {
+                echo "Email sending failed: ${err.getMessage()}"
             }
         }
     }
