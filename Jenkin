@@ -34,8 +34,7 @@ post {
                     to: 'ajaypanand007@gmail.com',
                     attachLog: true
                 )
-               echo "Email sendjjj: ${e.getMessage()}"
-            } catch (err) {
+         } catch (err) {
                 echo "Email sending failed: ${err.getMessage()}"
             }
         }
